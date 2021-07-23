@@ -1,0 +1,94 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: webapp-deployment-6.0
+  labels: 
+    app: webapp 
+    version: v6.0
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: webapp 
+  template: 
+    metadata: 
+      labels: 
+        app: webapp
+        version: v6.0
+      annotations:
+        sidecar.istio.io/inject: 'true' 
+    spec: 
+      containers: 
+      - name: webapp 
+        image: quay.io/shailendra14k/getotp:6.0
+        imagePullPolicy: Always 
+        ports: 
+        - containerPort: 8180
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment-6.1
+  labels:
+    app: webapp
+    version: v6.1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+        version: v6.1
+      annotations:
+        sidecar.istio.io/inject: 'true'
+    spec:
+      containers:
+      - name: webapp
+        image: quay.io/shailendra14k/getotp:6.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8180
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment-6.2
+  labels:
+    app: webapp
+    version: v6.2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+        version: v6.2
+      annotations:
+        sidecar.istio.io/inject: 'true'
+    spec:
+      containers:
+      - name: webapp
+        image: quay.io/shailendra14k/getotp:6.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8180
+---
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: webservice 
+spec: 
+  selector: 
+    app: webapp 
+  ports: 
+  - protocol: TCP 
+    port: 80 
+    targetPort: 8180
+
+
